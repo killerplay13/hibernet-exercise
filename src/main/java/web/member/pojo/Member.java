@@ -13,19 +13,22 @@ import core.pojo.Core;
 public class Member extends Core {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private static final long serialVersionUID = 1062017833925367218L;
+	
 	private Integer id;
 	private String username;
 	private String password;
 	private String nickname;
+	@Column(insertable = false)
 	private Boolean pass;
-	@Column(name = "ROLE_ID")
+	@Column(name = "ROLE_ID",insertable = false)
 	private Integer roleId;
+	@Column(insertable = false)
 	private String creator;
-	@Column(name = "CREATE_DATE")
+	@Column(name = "CREATED_DATE",insertable = false)
 	private Timestamp createdDate;
+	@Column(insertable = false)
 	private String updater;
-	@Column(name = "LAST_UPDATE_DATE")
+	@Column(name = "LAST_UPDATED_DATE",insertable = false)
 	private Timestamp lastUpdatedDate;
 
 	public Member() {
