@@ -2,7 +2,7 @@ package core.service;
 
 import javax.transaction.Transaction;
 
-import web.member.util.HibernateUtil;
+import core.util.HibernateUtil;
 
 import static core.util.HibernateUtil.getSessionFactory;
 
