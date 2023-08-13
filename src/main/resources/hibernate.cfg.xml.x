@@ -7,7 +7,7 @@
 <!-- 		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/JAVA_FRAMEWORK?serverTimezone=Asia/Taipei</property> -->
 <!-- 		<property name="hibernate.connection.username">root</property> -->
 <!-- 		<property name="hibernate.connection.password">killerplay13</property> -->
-		<!-- 上面四行or下面一行則一使用 -->
+		<!-- 上面四行(main)or下面一行則一使用(tomcat) -->
 		<property name="hibernate.connection.datasource">java:comp/env/jdbc/javaFramework</property>
 		<property name="hibernate.current_session_context_class">thread</property>
 

@@ -2,21 +2,25 @@ package web.member.dao.impl;
 
 import java.util.List;
 
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 
 import web.member.dao.MemberDao;
 import web.member.entity.Member;
-
+@Repository
 public class MemberDaoImpl implements MemberDao {
+	@PersistenceContext
+	private Session session;
 
 	@Override
 	public int insert(Member member) {
-		getSession().persist(member);
+		session.persist(member);
 		return 1;
 //		final String sql = "insert into MEMBER(USERNAME, PASSWORD, NICKNAME, ROLE_ID) " + "values(?, ?, ?, ?)";
 //		try (
@@ -35,7 +39,6 @@ public class MemberDaoImpl implements MemberDao {
 
 	@Override
 	public int deleteById(Integer id) {
-		Session session = getSession();
 		Member member = session.get(Member.class,id);
 		session.remove(member);
 		return 1;
@@ -67,7 +70,7 @@ public class MemberDaoImpl implements MemberDao {
 			.append("updater = :updater,")
 			.append("last_updated_date = NOW() ")
 			.append("WHERE username = :username");
-		Query<?> query = getSession().createQuery(hql.toString());
+		Query<?> query = session.createQuery(hql.toString());
 		if(password != null && !password.isEmpty()) {
 			query.setParameter("password", password);
 		}
@@ -100,7 +103,7 @@ public class MemberDaoImpl implements MemberDao {
 
 	@Override
 	public Member selectById(Integer id) {
-		return getSession().get(Member.class, id);
+		return session.get(Member.class, id);
 //		final String sql = "select * from MEMBER where ID = ?";
 //		try (
 //			Connection conn = getConnection();
@@ -132,7 +135,7 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public List<Member> selectAll() {
 		final String hql = "FROM Member ORDER BY id";
-		return getSession().createQuery(hql, Member.class).getResultList();
+		return session.createQuery(hql, Member.class).getResultList();
 		
 //				try (
 //			Connection conn = getConnection();
@@ -165,7 +168,7 @@ public class MemberDaoImpl implements MemberDao {
 //		final String sql = "select * from MEMBER where USERNAME = ?";
 		
 		
-		Session session = getSession();
+		
 		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
 		CriteriaQuery<Member> criteriaQuery = criteriaBuilder.createQuery(Member.class);
 		//from member
@@ -201,10 +204,13 @@ public class MemberDaoImpl implements MemberDao {
 //		return null;
 	}
 	
+	
+	
 	@Override
 	public Member selectForLogin(String username, String password) {
 		final String sql = "select * from MEMBER where USERNAME = :username and PASSWORD = :password";
-		return getSession().createNativeQuery(sql,Member.class)
+		return session
+				.createNativeQuery(sql,Member.class)
 				.setParameter("username",username)
 				.setParameter("password", password)
 				.uniqueResult();

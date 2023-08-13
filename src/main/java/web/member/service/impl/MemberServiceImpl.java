@@ -2,17 +2,23 @@ package web.member.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import web.member.dao.MemberDao;
 import web.member.dao.impl.MemberDaoImpl;
 import web.member.entity.Member;
 import web.member.service.MemberService;
-
+@Service
+@Transactional
 public class MemberServiceImpl implements MemberService {
+	@Autowired
 	private MemberDao dao;
-	
-	public MemberServiceImpl() {
-		dao = new MemberDaoImpl();
-	}
+	//有autowired，拿掉建構子	
+//	public MemberServiceImpl() {
+//		dao = new MemberDaoImpl();
+//	}
 	
 	@Override
 	public Member register(Member member) {
